@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\PostedJobsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ToggleUserTypeController;
 use Illuminate\Support\Facades\Route;
@@ -58,5 +59,20 @@ Route::delete('/jobs/{job}', [JobController::class, 'destroy'])
 
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/jobs/{job}', [JobController::class, 'show']);
+
+Route::get('/posted-jobs', [PostedJobsController::class, 'index'])
+    ->name('posted-jobs')
+    ->middleware('auth')
+    ->can('employer');
+
+Route::get('/posted-jobs/{job}/edit', [PostedJobsController::class, 'edit'])
+    ->middleware('auth')
+    ->can('employer')
+    ->can('editJob', 'job');
+
+Route::get('/posted-jobs/{job}', [PostedJobsController::class, 'show'])
+    ->middleware('auth')
+    ->can('employer')
+    ->can('editJob', 'job');
 
 require __DIR__ . '/auth.php';

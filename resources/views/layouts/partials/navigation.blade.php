@@ -64,6 +64,12 @@
                                         {{ __('My Profile') }}
                                     </x-dropdown-link>
 
+                                    @can('employer')
+                                        <x-dropdown-link :href="route('posted-jobs')">
+                                            {{ __('Posted Jobs') }}
+                                        </x-dropdown-link>
+                                    @endcan
+
                                     <!-- Authentication -->
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
