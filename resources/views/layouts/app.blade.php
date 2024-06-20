@@ -28,6 +28,12 @@
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900">
                         {{ $header }}
                     </h1>
+                    @can('employer')
+                        <a href="/jobs/create"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 border border-blue-700 rounded">
+                            {{ __('Post a Job') }}
+                        </a>
+                    @endcan
                 </div>
             </header>
         @endif

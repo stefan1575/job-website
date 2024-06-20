@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
@@ -30,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('jobSeeker', function (User $user) {
             return $user->jobSeeker;
+        });
+
+        Gate::define('editJob', function (User $user, Job $job) {
+            return $job->employer->user->is($user);
         });
     }
 }

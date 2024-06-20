@@ -2,7 +2,7 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
-                <a href="/" class="flex-shrink-0 flex flex-row items-center">
+                <a href="/jobs" class="flex-shrink-0 flex flex-row items-center">
                     <x-application-logo class="h-8 w-8" />
                     <div class="my-0">
                         <div class="text-white pl-2 font-bold text-l">{{ config('app.name', 'Job Website') }}</div>

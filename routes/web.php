@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ToggleUserTypeController;
 use Illuminate\Support\Facades\Route;
@@ -29,5 +30,33 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 });
+
+// Employer specific routes
+Route::get('/jobs/create', [JobController::class, 'create'])
+    ->middleware('auth')
+    ->can('employer');
+
+Route::post('/jobs', [JobController::class, 'store'])
+    ->middleware('auth')
+    ->can('employer')
+    ->name('job.create');
+
+// Employer Job specific routes
+Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])
+    ->middleware('auth')
+    ->can('editJob', 'job');
+
+Route::patch('/jobs/{job}', [JobController::class, 'update'])
+    ->middleware('auth')
+    ->can('editJob', 'job')
+    ->name('job.update');
+
+Route::delete('/jobs/{job}', [JobController::class, 'destroy'])
+    ->middleware('auth')
+    ->can('editJob', 'job')
+    ->name('job.destroy');
+
+Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs/{job}', [JobController::class, 'show']);
 
 require __DIR__ . '/auth.php';
