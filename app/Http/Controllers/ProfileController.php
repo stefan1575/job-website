@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\UserProfileUpdateRequest;
+use App\Http\Requests\EmployerProfileUpdateRequest;
+use App\Http\Requests\JobSeekerUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,9 +24,9 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Update the user's email.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function updateEmail(UserProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
 
@@ -34,7 +36,48 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'user-profile-updated');
+    }
+
+    /**
+     * Update the job seeker's profile information.
+     */
+    public function updateJobSeeker(JobSeekerUpdateRequest $request): RedirectResponse
+    {
+
+        $request->user()->jobSeeker->fill($request->validated());
+
+        $request->user()->jobSeeker->save();
+
+        return Redirect::route('profile.edit')->with('status', 'job-seeker-profile-updated');
+    }
+
+
+    /**
+     * Update the employer's profile information.
+     */
+    public function updateEmployer(EmployerProfileUpdateRequest $request): RedirectResponse
+    {
+        $employer = $request->user()->employer;
+
+        $name = $request->employer_name;
+        $logo = $request->employer_logo;
+
+        if ($name) {
+            $employer->update([
+                'name' => $name
+            ]);
+        }
+
+        if ($logo) {
+            $employer->update([
+                'logo' => $logo->store('logos')
+            ]);
+        }
+
+        $employer->save();
+
+        return Redirect::route('profile.edit')->with('status', 'employer-profile-updated');
     }
 
     /**
