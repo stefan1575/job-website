@@ -6,6 +6,23 @@
                     <x-application-logo class="h-8 w-8" />
                     <div class="my-0">
                         <div class="text-white pl-2 font-bold text-l">{{ config('app.name', 'Job Website') }}</div>
+                        @guest
+                            @if (Session::get('user_type') === 'Employer')
+                                <div class="text-white pl-2 font-extralight italic text-xs">for Employers</div>
+                            @elseif(request()->is('login'))
+                            @else
+                                <div class="text-white pl-2 font-extralight italic text-xs">for Job Seekers</div>
+                            @endif
+                        @endguest
+
+                        @auth
+                            @can('employer')
+                                <div class="text-white pl-2 font-extralight italic text-xs">for Employers</div>
+                            @endcan
+                            @can('jobSeeker')
+                                <div class="text-white pl-2 font-extralight italic text-xs">for Job Seekers</div>
+                            @endcan
+                        @endauth
                     </div>
                 </a>
                 <div class="hidden md:block">
@@ -23,7 +40,12 @@
                                     <button
                                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                         <div>
-                                            {{-- Insert Name Here --}}
+                                            @can('jobSeeker')
+                                                {{ Auth::user()->jobSeeker->first_name . ' ' . Auth::user()->jobSeeker->last_name }}
+                                            @endcan
+                                            @can('employer')
+                                                {{ Auth::user()->employer->name }}
+                                            @endcan
                                         </div>
 
                                         <div class="ms-1">
@@ -59,6 +81,23 @@
                     @guest
                         <x-nav-link class="mr-3" href="{{ route('login') }}" :active="request()->is('login')">Log In</x-nav-link>
                         <x-nav-link class="mr-3" href="{{ route('register') }}" :active="request()->is('register')">Register</x-nav-link>
+                        <form method="POST" action="{{ route('toggleUserTypeView') }}">
+                            @csrf
+
+                            @if (Session::get('user_type') === 'Employer')
+                                <input type="hidden" name="user_type" id="user_type" value="Job Seeker">
+                                <button
+                                    class='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'>
+                                    Job Seeker / Find Jobs
+                                </button>
+                            @else
+                                <input type="hidden" name="user_type" id="user_type" value="Employer">
+                                <button
+                                    class='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'>
+                                    Employer / Post Jobs
+                                </button>
+                            @endif
+                        </form>
                     @endguest
                 </div>
             </div>

@@ -1,17 +1,14 @@
 <x-app-layout>
-    <x-form method="POST" action="{{ route('register') }}">
+    <x-form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
         <x-slot name="header">
             {{ __('Register') }}
         </x-slot>
-        @csrf
-
-        <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
-                autofocus autocomplete="name" />
+            <x-input-label for="name" :value="__('Employer Name')" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" required />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
+
 
         <!-- Email Address -->
         <div class="mt-4">
@@ -24,22 +21,27 @@
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
-
             <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
                 autocomplete="new-password" />
-
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
             <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
                 name="password_confirmation" required autocomplete="new-password" />
-
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
+
+        <div class="mt-4">
+            <x-input-label for="logo" :value="__('Employer Logo')" />
+            <input type="file" id="logo" name="logo"
+                class="mt-4 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer bg-gray-50 focus:outline-none"
+                type="file" accept=".png,.jpg,.jpeg" required />
+            <x-input-error :messages="$errors->get('logo')" class="mt-2" />
+        </div>
+
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

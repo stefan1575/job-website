@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ToggleUserTypeController;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/toggle-user-type-view', ToggleUserTypeController::class)->name('toggleUserTypeView');
 Route::view('/', 'index');
 
 Route::get('/dashboard', function () {
