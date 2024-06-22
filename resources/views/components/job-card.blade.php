@@ -29,5 +29,23 @@
                 </div>
             </div>
         </a>
+        @can('jobSeeker')
+            @php
+                $savedJob = Auth::user()
+                    ->jobSeeker->savedJobs()
+                    ->where('job_id', $job->id)
+                    ->first();
+
+                $saved = $savedJob ?? false ? 'stroke-black/80 fill-black' : 'stroke-black/80';
+            @endphp
+            <div>
+                <form method="POST" action="{{ route('saved-jobs.toggle', $job) }}">
+                    @csrf
+                    <button class="absolute top-4 right-12 block p-1 rounded-md hover:bg-gray-500/25">
+                        <x-bookmark class="{{ $saved }}" />
+                    </button>
+                </form>
+            </div>
+        @endcan
     </div>
 </div>

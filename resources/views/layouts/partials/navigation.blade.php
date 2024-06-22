@@ -68,6 +68,10 @@
                                         <x-dropdown-link :href="route('applied-jobs')">
                                             {{ __('Job Applications') }}
                                         </x-dropdown-link>
+
+                                        <x-dropdown-link :href="route('saved-jobs.index')">
+                                            {{ __('Saved Jobs') }}
+                                        </x-dropdown-link>
                                     @endcan
 
                                     @can('employer')

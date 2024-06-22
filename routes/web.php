@@ -6,6 +6,7 @@ use App\Http\Controllers\JobApplicantsController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PostedJobsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SavedJobsController;
 use App\Http\Controllers\ToggleUserTypeController;
 use Illuminate\Support\Facades\Route;
 
@@ -93,5 +94,15 @@ Route::get('/job-applicants', [JobApplicantsController::class, 'index'])
     ->name('job-applicants')
     ->middleware('auth')
     ->can('employer');
+
+Route::post('/saved-jobs/{job}', [SavedJobsController::class, 'toggle'])
+    ->middleware('auth')
+    ->can('jobSeeker')
+    ->name('saved-jobs.toggle');
+
+Route::get('/saved-jobs', [SavedJobsController::class, 'index'])
+    ->middleware('auth')
+    ->can('jobSeeker')
+    ->name('saved-jobs.index');
 
 require __DIR__ . '/auth.php';

@@ -17,6 +17,12 @@
                 <div class="pb-2">${{ $job['salary'] }} a month - {{ $job['schedule'] }}</div>
                 @if (request()->is('jobs*'))
                     @can('jobSeeker')
+                        @php
+                            $savedJob = Auth::user()
+                                ->jobSeeker->savedJobs()
+                                ->where('job_id', $job->id)
+                                ->first();
+                        @endphp
                         <div class="pb-2 flex">
                             <form method="POST" action="{{ route('apply.index') }}">
                                 @csrf
@@ -33,6 +39,21 @@
                                         {{ __('Applied') }}
                                     </div>
                                 @endcannot
+                            </form>
+
+                            <form method="POST" action="{{ route('saved-jobs.toggle', $job) }}">
+                                @csrf
+                                @if (!$savedJob)
+                                    <button
+                                        class="font-semibold py-1.5 px-3 border border-gray-500/25 hover:bg-gray-500/25 rounded">
+                                        {{ __('Save') }}
+                                    </button>
+                                @else
+                                    <button
+                                        class="font-semibold py-1.5 px-3 border border-gray-500/25 hover:bg-gray-500/25 rounded">
+                                        {{ __('Unsave') }}
+                                    </button>
+                                @endif
                             </form>
                         </div>
                     @endcan
