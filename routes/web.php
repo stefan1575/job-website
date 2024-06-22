@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AppliedJobsController;
+use App\Http\Controllers\ApplyController;
+use App\Http\Controllers\JobApplicantsController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PostedJobsController;
 use App\Http\Controllers\ProfileController;
@@ -74,5 +77,21 @@ Route::get('/posted-jobs/{job}', [PostedJobsController::class, 'show'])
     ->middleware('auth')
     ->can('employer')
     ->can('editJob', 'job');
+
+Route::post('/apply', [ApplyController::class, 'index'])
+    ->name('apply.index');
+
+Route::post('/apply/submit', [ApplyController::class, 'store'])
+    ->name('apply.store');
+
+Route::get('/applied-jobs', [AppliedJobsController::class, 'index'])
+    ->name('applied-jobs')
+    ->middleware('auth')
+    ->can('jobSeeker');
+
+Route::get('/job-applicants', [JobApplicantsController::class, 'index'])
+    ->name('job-applicants')
+    ->middleware('auth')
+    ->can('employer');
 
 require __DIR__ . '/auth.php';

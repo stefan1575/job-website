@@ -64,9 +64,19 @@
                                         {{ __('My Profile') }}
                                     </x-dropdown-link>
 
+                                    @can('jobSeeker')
+                                        <x-dropdown-link :href="route('applied-jobs')">
+                                            {{ __('Job Applications') }}
+                                        </x-dropdown-link>
+                                    @endcan
+
                                     @can('employer')
                                         <x-dropdown-link :href="route('posted-jobs')">
                                             {{ __('Posted Jobs') }}
+                                        </x-dropdown-link>
+
+                                        <x-dropdown-link :href="route('job-applicants')">
+                                            {{ __('Job Applicants') }}
                                         </x-dropdown-link>
                                     @endcan
 

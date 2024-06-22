@@ -36,5 +36,11 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('editJob', function (User $user, Job $job) {
             return $job->employer->user->is($user);
         });
+
+        Gate::define('applyJob', function (User $user, Job $job) {
+            return $user->jobSeeker->jobApplications->doesntContain(function ($jobApplication) use ($job) {
+                return $jobApplication->job_id === $job->id;
+            });
+        });
     }
 }
