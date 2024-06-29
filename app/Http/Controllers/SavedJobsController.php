@@ -9,7 +9,7 @@ class SavedJobsController extends Controller
 {
     public function index()
     {
-        $savedJobs = Auth::user()->jobSeeker->savedJobs()->with('job')->latest()->paginate(10);
+        $savedJobs = Auth::user()->jobSeeker->savedJobs()->with('job.employer')->latest()->paginate(10);
         $jobs = Job::latest();
 
         return view('saved-jobs.index', ['savedJobs' => $savedJobs, 'jobs' => $jobs]);

@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::unguard();
 
+        Model::preventLazyLoading();
+
         Gate::define('employer', function (User $user) {
             return $user->employer;
         });
