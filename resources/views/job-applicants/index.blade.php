@@ -81,4 +81,5 @@
             </tbody>
         </table>
     </div>
+    <div class="mt-8">{{ $jobApplications->links() }}</div>
 </x-app-layout>

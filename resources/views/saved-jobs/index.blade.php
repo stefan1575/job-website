@@ -1,3 +1,5 @@
+@props(['savedJobs' => $savedJobs, 'jobs' => $jobs])
+
 <x-app-layout>
     <x-slot name="header">
         {{ __('Saved Jobs') }}
@@ -6,8 +8,19 @@
         @foreach ($savedJobs as $savedJob)
             @php
                 $job = $savedJob->job;
+                $currentPage;
+
+                for ($i = 1; $jobs->forPage($i, 10)->get()->isNotEmpty(); $i++) {
+                    foreach ($jobs->forPage($i, 10)->get() as $currentJob) {
+                        if ($job->id === $currentJob['id']) {
+                            $currentPage = $i;
+                        }
+                    }
+                }
+
+                $pageNumber = '?page=' . $currentPage;
             @endphp
-            <a class="py-2" href="/jobs/{{ $job->id }}">
+            <a class="py-2" href="/jobs/{{ $job->id . $pageNumber }}">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                     <div class="block p-4 sm:p-8 bg-white shadow sm:rounded-lg hover:border-blue-500/50 border-2">
                         <div class="max-w-xl flex content-center">
@@ -24,6 +37,7 @@
                 </div>
             </a>
         @endforeach
+        <div>{{ $savedJobs->links() }}</div>
     @else
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

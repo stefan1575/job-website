@@ -1,6 +1,8 @@
-@props(['job' => $job, 'uri' => $uri])
+@props(['job' => $job, 'uri' => $uri, 'currentPage' => $currentPage])
 
 @php
+    $pageNumber = '?page=' . $currentPage;
+
     $active =
         request()->is($uri . '/' . $job->id) ?? false
             ? 'block p-4 sm:p-8 bg-white shadow sm:rounded-lg border-blue-500 border-2'
@@ -9,7 +11,7 @@
 
 <div class="py-2">
     <div class="relative max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-        <a href="/{{ $uri }}/{{ $job->id }}" class="{{ $active }}">
+        <a href="/{{ $uri }}/{{ $job->id . $pageNumber }}" class="{{ $active }}">
             <div class="max-w-xl">
                 <div class="pb-2 flex place-content-between">
                     <div>

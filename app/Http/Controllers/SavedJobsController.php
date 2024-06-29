@@ -10,8 +10,9 @@ class SavedJobsController extends Controller
     public function index()
     {
         $savedJobs = Auth::user()->jobSeeker->savedJobs()->with('job')->latest()->paginate(10);
+        $jobs = Job::latest();
 
-        return view('saved-jobs.index', ['savedJobs' => $savedJobs]);
+        return view('saved-jobs.index', ['savedJobs' => $savedJobs, 'jobs' => $jobs]);
     }
 
     public function toggle(Job $job)

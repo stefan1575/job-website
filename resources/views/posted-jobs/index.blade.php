@@ -5,7 +5,11 @@
     <div class="grid grid-cols-2">
         <div>
             @foreach ($jobs as $job)
-                @include('components.job-card', ['job' => $job, 'uri' => 'posted-jobs'])
+                @include('components.job-card', [
+                    'job' => $job,
+                    'uri' => 'posted-jobs',
+                    'currentPage' => $jobs->currentPage(),
+                ])
             @endforeach
         </div>
         <div>
@@ -14,4 +18,5 @@
             @endif
         </div>
     </div>
+    <div class="mt-8">{{ $jobs->links() }}</div>
 </x-app-layout>
