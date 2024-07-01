@@ -4,6 +4,7 @@ use App\Http\Controllers\AppliedJobsController;
 use App\Http\Controllers\ApplyController;
 use App\Http\Controllers\JobApplicantsController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\PostedJobsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SavedJobsController;
@@ -104,5 +105,13 @@ Route::get('/saved-jobs', [SavedJobsController::class, 'index'])
     ->middleware('auth')
     ->can('jobSeeker')
     ->name('saved-jobs.index');
+
+Route::post('/notifications/mark-as-read', [NotificationsController::class, 'markAsRead'])
+    ->middleware('auth')
+    ->name('notifications.markAsRead');
+
+Route::post('/notifications/mark-all-as-read', [NotificationsController::class, 'markAllAsRead'])
+    ->middleware('auth')
+    ->name('notifications.markAllAsRead');
 
 require __DIR__ . '/auth.php';

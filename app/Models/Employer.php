@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
 
 class Employer extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
+
+    public function routeNotificationForMail(Notification $notification): array|string
+    {
+        return $this->user->email;
+    }
 
     public function user(): BelongsTo
     {
